@@ -77,8 +77,9 @@ m.select = {}
 
 --[[ Notes ]]-------------------------------------------------------------------
 -- Import all frames from _G[texture_container][folder_frames]
-function m.load()
-  for i,v in pairs(_G[texture_container][folder_frames]) do
+function m.load(configuration)
+  m.configuration = configuration
+  for i,v in pairs(configuration[texture_container][folder_frames]) do
     local temptable = {}
     temptable = stringSplitSingle(i,"_")
     if #temptable == 2 then
@@ -114,7 +115,7 @@ end
 --[[ Notes ]]-------------------------------------------------------------------
 -- Draw a frame with the parts stretched out.
 function m.draw(name,x,y,w,h)
-  local frame_image = _G[texture_container][folder_frames]
+  local frame_image = m.configuration[texture_container][folder_frames]
   local cur_frame = m.select[name]
   if cur_frame == nil then
     cur_frame = m.select[default_frame]

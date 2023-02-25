@@ -100,6 +100,8 @@ local palette_table = nil
 local shader_table = nil
 local function_command = nil
 
+m.configuration = {}
+
 --[[----------------------------------------------------------------------------------------------------
        Local Functions
 ----------------------------------------------------------------------------------------------------]]--
@@ -173,48 +175,70 @@ end
 
  --[[ String to Table ]]-------------------------------------------------------------------------------
 -- "Change.a.string" to a table: Change[a][string]
-local function string_to_table(string)
-    local table_find = _G -- Select the global table
-    for w in string.gmatch(string, "[%w_]+") do -- matches both alphanumeric characters and underscores, more than once
-        assert(table_find[w], "This table does not exist: " .. string)
+local function string_to_table(str)
+    local table_find = m.configuration -- Select the configuration table
+
+    for w in string.gmatch(str, "[%w_]+") do -- matches both alphanumeric characters and underscores, more than once
+        assert(table_find[w], "This table does not exist: " .. str)
         table_find = table_find[w]    -- for each one start gluing the table back together
     end
+
     return table_find -- Return the table reference
 end
 
+local function get_root_of_string_table(str)
+    local result = string.match(str, "^[^%.]+")
+    if not result then
+        error("String is empty or does not contain any dots")
+    end
+
+    return result
+end
 
 --[[----------------------------------------------------------------------------------------------------
        Configuration Functions
 ----------------------------------------------------------------------------------------------------]]--
 m.configure = {}
 
-function m.configure.audio_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.audio_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     audio_table = table_string
 end
 
-function m.configure.font_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.font_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     font_table = table_string
 end
 
-function m.configure.image_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.image_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     image_table = table_string
 end
 
-function m.configure.icon_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.icon_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     icon_table = table_string
 end
 
-function m.configure.palette_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.palette_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     palette_table = table_string
 end
 
-function m.configure.shader_table(table_string)
-    local test = string_to_table(table_string)
+function m.configure.shader_table(table_string, value)
+    m.configuration[get_root_of_string_table(table_string)] = value
+
+    string_to_table(table_string)
     shader_table = table_string
 end
 

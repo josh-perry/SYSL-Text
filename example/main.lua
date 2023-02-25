@@ -3,23 +3,22 @@
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- SLog Screen Scaling Library
 -- Used for pixel art examples, works fine without it.
-Screen = require("library.slog-pixel"); 
+local Screen = require("library.slog-pixel"); 
 Screen.load(4)
 
 -- SLog Frame Library
 -- Used for pixel art examples, works fine without it.
-Frame = require("library.slog-frame"); 
+local Frame = require("library.slog-frame"); 
 
 -- SLog Icon Library
 -- Used for icon drawing, works fine without it.
-Icon = require("library.slog-icon");
-
+local Icon = require("library.slog-icon");
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- The real library
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- SLog Text Library
-Text = require("library.slog-text")
+local Text = require("library.slog-text")
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- Config - Advanced Scripting
@@ -29,7 +28,7 @@ Text = require("library.slog-text")
 Text.configure.function_command_enable(true)
 
 -- Create fonts for testing 
-Fonts = {
+local Fonts = {
 default = love.graphics.newFont(16),
 earth_illusion = love.graphics.newFont("font/earth_illusion.fnt", "font/earth_illusion.png"),
 golden_apple = love.graphics.newFont("font/golden_apple.fnt", "font/golden_apple.png"),
@@ -49,11 +48,11 @@ love.graphics.setFont(Fonts.default)
 -- Now that we set our fonts, let's pass it to the library.
 -- Note, we pass it as a string, it will automaticly convert to a table in the library.
 -- The library will work without setting a font_table, but this allows us to use the [font] command.
-Text.configure.font_table("Fonts")
+Text.configure.font_table("Fonts", Fonts)
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- Load Images for testing 
-images = {} 
+local images = {} 
 images.bg = love.graphics.newImage("images/bg.png")
 images.tango = love.graphics.newImage("images/tangoicons.png")
 images.witch = love.graphics.newImage("images/pixabaywitch.png")
@@ -78,7 +77,7 @@ images.frame.utp_8 = love.graphics.newImage("images/frame/utp_8.png")
 -- Now that we set our images, let's pass it to the library.
 -- Note, we pass it as a string, it will automaticly convert to a table in the library.
 -- The library will work without it, but without the ability to draw images directly with the [image=name] command
-Text.configure.image_table("images")
+Text.configure.image_table("images", images)
 
 
 -- Set up icons
@@ -91,16 +90,16 @@ Icon.configure(16, images.tango)
 -- The library will work without it, but without the ability to draw images directly with the [icon=name] command
 -- Note, the library assumes the table has a count() to return the number of functions, and a draw() that works like love.graphics.draw()
 -- with a number replacing the source image.
-Text.configure.icon_table("Icon")
+Text.configure.icon_table("Icon", Icon)
 
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- SLog Frame Library has to load after setting up all the frames, library used to draw the background boxes for text.
-Frame.load()
+Frame.load(Text.configuration)
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- Load Audio for testing 
-Audio = {}
+local Audio = {}
 Audio.text = {}
 Audio.text.default = love.audio.newSource("audio/text/default.ogg", "static")
 Audio.text.typing = love.audio.newSource("audio/text/typing.ogg", "static")
@@ -118,7 +117,7 @@ Audio.sfx.ui:setVolume(0.3)
 -- Now that we set our audio, let's pass it to the library.
 -- Note, we pass it as a string, it will automaticly convert to a table in the library.
 -- The library will work without it, but without the ability to draw images directly with the [audio=table=source] command
-Text.configure.audio_table("Audio")
+Text.configure.audio_table("Audio", Audio)
 
 --[[-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]--
 -- Config - Text-Tones
